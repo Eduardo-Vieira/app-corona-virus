@@ -27,8 +27,18 @@ export class Tab1Page implements OnInit {
     private router: Router,
     private alert: AlertController,
     private loading: LoadingController) { }
+    
+  
+  doRefresh(event) {
+    this.getInit()
+    event.target.complete();
+  }
 
   ngOnInit() {
+    this.getInit()
+  }
+
+  getInit(){
     let load = this.loading.create({
       message: "Atualizando Dados..."
     })
@@ -46,7 +56,6 @@ export class Tab1Page implements OnInit {
         this.getLocates()
         load.then((a) => a.dismiss())
       })
-
   }
 
   getLocates() {

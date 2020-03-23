@@ -50,6 +50,8 @@ export class ApiService {
                 let casosdescartados = 0
                 let casossuspeitos = 0
                 let obitos = 0
+                let flip:boolean = false
+
                 state.forEach(s => {
                   casosconfirmados += s.properties.casosconfirmados
                   casosdescartados += s.properties.casosdescartados
@@ -59,7 +61,11 @@ export class ApiService {
                   brasilcasosconfirmados += s.properties.casosconfirmados
                   brasilcasosdescartados += s.properties.casosdescartados
                   brasilcasossuspeitos += s.properties.casossuspeitos
-                  brasilobitos += s.properties.obitos                  
+                  brasilobitos += s.properties.obitos
+                  
+                  flip = (flip) ? false:true;
+                  s.properties.flip = flip
+
                 })
 
                 //aplicando a Correcao
@@ -70,7 +76,7 @@ export class ApiService {
 
                 //digo que essa regiao tem esses estados
                 e.estados = state
-
+    
                 if(e.properties.estado_geo != "Brasil")
                   organizate.push(e)
 

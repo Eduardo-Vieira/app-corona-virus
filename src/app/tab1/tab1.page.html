@@ -1,41 +1,51 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Brasil
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12">
-        <ion-text class="ion-text-left ion-text-wrap" color="warning">
-          Casos Suspeitos: {{locates?.geral.casossuspeitos}}
-        </ion-text>
-      </ion-col>
-      <ion-col size="12">
-        <ion-text class="ion-text-left ion-text-wrap" color="danger">
-          Casos Confirmados: {{locates?.geral.casosconfirmados}}
-        </ion-text>
-      </ion-col>
-      <ion-col size="12">
-        <ion-text class="ion-text-left ion-text-wrap" color="dark">
-          Mortes Confirmadas: {{locates?.geral.obitos}}
-        </ion-text>
-      </ion-col>
-      <ion-col size="12">
-        <ion-text class="ion-text-left ion-text-wrap" color="success">
-          Casos Descartados: {{locates?.geral.casosdescartados}}
-        </ion-text>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!-- Acesso Rápido -->
-  <ion-searchbar animated placeholder="SUDESTE, Rio de Janeiro, RJ" (ionClear)="clearLocates()"
-    (ionInput)="searchLocates($event)"></ion-searchbar>
+  <div class="app-painel">
+    <div class="app-painel-header">
+      <img src="./assets/icon.png" width="64" height="64"/>
+      <div class="app-painel-header-title">Brasil</div>
+    </div>
+    <div class="painel-total-label">
+      Resumo de casos no Brasil
+    </div>
+    <div class="painel-total">
+      <div class="painel-card painel-card-warning">
+        <div class="painel-content">
+          <ion-icon name="help-outline" size="large"></ion-icon>
+          <p>
+            Casos<br>Suspeitos<br>{{locates?.geral.casossuspeitos}}
+          </p>
+        </div>
+      </div>
+      <div class="painel-card painel-card-danger">
+          <div class="painel-content">
+          <ion-icon name="sad-outline" size="large"></ion-icon>
+          <p>
+              Casos<br>Confirmados<br>{{locates?.geral.casosconfirmados}}
+          </p>
+          </div>
+      </div>
+      <div class="painel-card painel-card-dark">
+          <div class="painel-content">
+          <ion-icon name="skull-outline" size="large"></ion-icon>
+          <p>
+              Mortes<br>Confirmadas<br>{{locates?.geral.obitos}}
+          </p>
+          </div>
+      </div>
+      <div class="painel-card painel-card-success">
+          <div class="painel-content">
+          <ion-icon name="happy-outline" size="large"></ion-icon>
+          <p>
+              Casos<br>Descartados<br>{{locates?.geral.casosdescartados}}
+          </p>
+          </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Skeleton Text -->
   <ion-list *ngIf="locatesFiltred == null">
@@ -66,31 +76,63 @@
   </ion-select>
 
   <!-- Lista de Pesquisa -->
-  <ion-list lines="none" *ngIf="locatesFiltred != null">
+  <div class="app-list" *ngIf="locatesFiltred != null">
+    <div class="app-list-group" *ngFor="let regiao of locatesFiltred" (click)="openDetails(regiao)">
+      <div class="app-list-header">
+        <div class="app-list-header-label">
+          <ion-icon slot="start" name="pricetags-outline"></ion-icon> 
+          <span>{{ regiao.properties.estado_geo.toUpperCase() }}</span>
+        </div>
+        <div class="app-list-header-total">
+            <div class="col-total">
+              <p>Casos<br>Suspeitos</p>
+              <ion-badge class="ion-text-wrap" color="warning">{{ regiao.properties.casossuspeitos }}</ion-badge>
+            </div>
+            <div class="col-total">
+              <p>Casos<br>Confirmados</p>
+              <ion-badge class="ion-text-wrap" color="danger">{{ regiao.properties.casosconfirmados }}</ion-badge>
+            </div>
+            <div class="col-total">
+              <p>Mortes<br>Confirmadas</p>
+              <ion-badge class="ion-text-wrap" color="dark">{{ regiao.properties.obitos }}</ion-badge>
+            </div>
+            <div class="col-total">
+              <p>Casos<br>Descartados</p>
+              <ion-badge class="ion-text-wrap" color="success">{{ regiao.properties.casosdescartados }}</ion-badge>
+            </div>
+        </div>
+      </div>
 
-    <ion-item-group lines="none" *ngFor="let regiao of locatesFiltred" (click)="openDetails(regiao)">
-      <ion-item lines="none">
-        <ion-icon slot="start" name="pricetags-outline"></ion-icon>
-        <ion-label class="ion-text-left ion-text-wrap">
-          {{ regiao.properties.estado_geo.toUpperCase() }}
-        </ion-label>
-        <ion-text class="ion-text-left ion-text-wrap" color="warning" slot="end">{{ regiao.properties.casossuspeitos }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="danger" slot="end">{{ regiao.properties.casosconfirmados }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="dark" slot="end">{{ regiao.properties.obitos }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="success" slot="end">{{ regiao.properties.casosdescartados }}</ion-text>
-      </ion-item>
-
-      <ion-item lines="none" *ngFor="let estado of regiao.estados" (click)="openDetails(estado)">
-        <i slot="start" class="flag-icon flag-icon-br"></i>
-        <ion-label class="ion-text-left ion-text-wrap">
-          {{ estado.properties.estado_geo }}
-        </ion-label>
-        <ion-text class="ion-text-left ion-text-wrap" color="warning" slot="end">{{ estado.properties.casossuspeitos }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="danger" slot="end">{{ estado.properties.casosconfirmados }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="dark" slot="end">{{ estado.properties.obitos }}</ion-text>
-        <ion-text class="ion-text-left ion-text-wrap" color="success" slot="end">{{ estado.properties.casosdescartados }}</ion-text>
-      </ion-item>
-
-    </ion-item-group>
-  </ion-list>
+      <!-- sub-itens -->
+      <div class="app-list-item" [ngClass]="{'color-f2f2f2': estado.properties.flip}" *ngFor="let estado of regiao.estados">
+          <div class="app-list-item-header">
+            <div class="icon-flag">
+                <i slot="start" class="flag-icon flag-icon-br"></i>
+            </div>
+            <div class="app-label">
+                {{ estado.properties.estado_geo }}
+            </div>
+          </div>
+          <div class="app-list-item-total">
+              <div class="col-total">
+                <p>Casos<br>Suspeitos</p>
+                <ion-badge class="ion-text-wrap" color="warning">{{ estado.properties.casossuspeitos }}</ion-badge>
+              </div>
+              <div class="col-total">
+                <p>Casos<br>Confirmados</p>
+                <ion-badge class="ion-text-wrap" color="danger">{{ estado.properties.casosconfirmados }}</ion-badge>
+              </div>
+              <div class="col-total">
+                <p>Mortes<br>Confirmadas</p>
+                <ion-badge class="ion-text-wrap" color="dark">{{ estado.properties.obitos }}</ion-badge>
+              </div>
+              <div class="col-total">
+                <p>Casos<br>Descartados</p>
+                <ion-badge class="ion-text-wrap" color="success">{{ estado.properties.casosdescartados }}</ion-badge>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+ 
 </ion-content>

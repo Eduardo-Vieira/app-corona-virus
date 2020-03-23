@@ -1,7 +1,111 @@
 ion-content ion-toolbar {
   --background: translucent;
 }
+.app-painel{
+  .app-painel-header{
+    background-color: white;
+    display: flex;
+    padding: 5px;
+    .app-painel-header-title{
+      font-size: 30px;
+      padding-top: 15px;
+      padding-left: 15px;
+    }
+  }
+  .painel-total-label{
+    padding-left: 5px;
+  }
+  .painel-total{
+    background-color: #f2f2f2;
+    overflow: auto;
+    display: flex;
+    .painel-card{
+      border: solid 1px #f2f2f2;
+      margin: 5px;
+      border-radius: 8px;
+      background-color: #ffff;
+      text-align: center;
+      padding-top: 16px;
+      .painel-content{
+        width: 130px;
+      }
+    }
+    .painel-card-warning{
+      background-color: #ffc409;
+      color: white;
+    }
+    .painel-card-danger{
+      background-color: #eb445a;
+      color: white;
+    }
+    .painel-card-dark{
+      background-color: black;
+      color: white;
+    }
+    .painel-card-success{
+      background-color: #2dd36f;
+      color: white;
+    }
+  }
+}
+.app-list{
+  padding-left: 16px;
+  padding-right: 16px;
+  overflow: auto;
+  height: calc(100% - 294px);
+  .app-list-group{
+    .app-list-header{
+      padding-top: 16px;
+      .app-list-header-label{
+        display: flex;
+        ion-icon{
+          margin-right: 10px;
+        }
+        span{
+          font-weight: bold;
+        }
+      }
+      .app-list-header-total{
+        display: flex;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        .col-total{
+          width: 100%;
+          text-align: center;
+        }
+        p{
+          font-size: 70%;
+        }
+      }
+    }
+    .app-list-item {
+      margin-bottom: 5px;
+      .app-list-item-header{
+        display: flex;
+      }
+      .app-list-item-total{
+        display: flex;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        .col-total{
+          width: 100%;
+          text-align: center;
+        }
+        p{
+          font-size: 70%;
+        }
+      }
+    }
+  }
+}
 
-ion-icon {
-  width: 16px;
+.icon-flag{
+  padding: 10px;
+  margin: 5px;
+}
+.app-label{
+  line-height: 3;
+}
+.color-f2f2f2{
+  background-color: #f2f2f2;
 }
